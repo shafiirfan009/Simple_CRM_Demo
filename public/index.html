@@ -13,7 +13,7 @@
         <h1>SimpleCRM Dashboard</h1>
         <p class="subtitle">Manage and track your leads in a simple workflow.</p>
       </div>
-      <a class="btn" href="/add.html">Add Lead</a>
+      <a class="btn" href="/add">Add Lead</a>
     </header>
 
     <section class="card">
@@ -67,7 +67,7 @@
               <td><span class="status status-${lead.status.toLowerCase()}">${lead.status}</span></td>
               <td>${window.SimpleCRM.formatDate(lead.created_at)}</td>
               <td>${window.SimpleCRM.formatDate(lead.updated_at)}</td>
-              <td><a class="btn-link" href="/edit.html?id=${lead.id}">Edit</a></td>
+              <td><a class="btn-link" href="/edit?id=${lead.id}">Edit</a></td>
             </tr>
           `)
           .join('');
