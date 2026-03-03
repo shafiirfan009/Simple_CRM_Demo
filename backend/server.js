@@ -16,11 +16,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/add', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'add.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', 'add', 'index.html'));
 });
 
 app.get('/edit', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'edit.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', 'edit', 'index.html'));
 });
 
 app.post('/api/leads', async (req, res) => {

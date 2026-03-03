@@ -121,7 +121,15 @@ function localUpdateLead(id, status, notes) {
 }
 
 function shouldFallback(err) {
-  return err && (err.status === 404 || err.status === 405 || err.name === 'TypeError');
+  if (!err) {
+    return false;
+  }
+
+  if (err.name === 'TypeError') {
+    return true;
+  }
+
+  return [404, 405, 500, 501, 502, 503, 504].includes(err.status);
 }
 
 async function withFallback(apiCall, localCall) {
