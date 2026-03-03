@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SimpleCRM Demo - Edit Lead</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <main class="container narrow">
+    <header class="page-header">
+      <h1>Edit Lead Status</h1>
+      <a class="btn-link" href="/">Back to Dashboard</a>
+    </header>
+
+    <section class="card">
+      <form id="edit-form" class="stacked-form">
+        <label for="lead-name">Name</label>
+        <input id="lead-name" type="text" readonly>
+
+        <label for="lead-notes">Notes</label>
+        <textarea id="lead-notes" rows="5"></textarea>
+
+        <label for="status">Status</label>
+        <select id="status" required>
+          <option value="New">New</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Closed">Closed</option>
+        </select>
+
+        <div id="message" class="message" aria-live="polite"></div>
+        <button class="btn" type="submit">Save Changes</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="/js/main.js"></script>
+  <script>
+    const form = document.getElementById('edit-form');
+    const message = document.getElementById('message');
+    const leadId = window.SimpleCRM.getLeadIdFromUrl();
+
+    if (!leadId) {
+      message.textContent = 'Invalid lead id.';
+      message.classList.add('error');
+      form.querySelector('button[type="submit"]').disabled = true;
+    }
+
+    async function loadLead() {
+      if (!leadId) {
+        return;
+      }
+
+      try {
+        const lead = await window.SimpleCRM.fetchLead(leadId);
+        document.getElementById('lead-name').value = lead.name || '';
+        document.getElementById('lead-notes').value = lead.notes || '';
+        document.getElementById('status').value = lead.status;
+      } catch (error) {
+        message.textContent = error.message;
+        message.classList.add('error');
+        form.querySelector('button[type="submit"]').disabled = true;
+      }
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!leadId) {
+        return;
+      }
+
+      try {
+        await window.SimpleCRM.updateLead(
+          leadId,
+          document.getElementById('status').value,
+          document.getElementById('lead-notes').value
+        );
+        window.location.href = '/';
+      } catch (error) {
+        message.textContent = error.message;
+        message.classList.add('error');
+      }
+    });
+
+    loadLead();
+  </script>
+</body>
+</html>

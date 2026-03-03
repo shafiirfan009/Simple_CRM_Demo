@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SimpleCRM Demo - Add Lead</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <main class="container narrow">
+    <header class="page-header">
+      <h1>Add Lead</h1>
+      <a class="btn-link" href="/">Back to Dashboard</a>
+    </header>
+
+    <section class="card">
+      <form id="add-form" class="stacked-form">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required maxlength="120">
+
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="5" maxlength="1000"></textarea>
+
+        <div class="status-line">Status: <strong>New</strong></div>
+
+        <div id="message" class="message" aria-live="polite"></div>
+        <button class="btn" type="submit">Create Lead</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="/js/main.js"></script>
+  <script>
+    const form = document.getElementById('add-form');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+
+      try {
+        await window.SimpleCRM.createLead(name, notes);
+        window.location.href = '/';
+      } catch (error) {
+        message.textContent = error.message;
+        message.classList.add('error');
+      }
+    });
+  </script>
+</body>
+</html>

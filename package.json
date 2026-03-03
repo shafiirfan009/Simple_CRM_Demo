@@ -1,0 +1,13 @@
+{
+  "name": "simplecrm-demo",
+  "version": "1.0.0",
+  "description": "Simple single-user CRM demo using Node.js, Express, and SQLite.",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  }
+}
